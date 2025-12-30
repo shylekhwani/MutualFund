@@ -1,0 +1,49 @@
+import {
+  createUserService,
+  getAllUserService,
+  loginUserService,
+} from "../services/userServices.js";
+
+export const createUserController = async function (req, res, next) {
+  try {
+    const data = req.body;
+    const newUser = await createUserService(data);
+    return res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      data: newUser,
+    });
+  } catch (error) {
+    next(error);
+    console.log("Internal server error on controller");
+  }
+};
+
+export async function loginController(req, res, next) {
+  try {
+    const response = await loginUserService(req.body);
+    return res.status(200).json({
+      success: true,
+      message: "User signed in successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.log("Error in signin:", error); // Debug log
+    next(error);
+  }
+}
+
+export async function getAllProfile(req, res, next) {
+  try {
+    const users = await getAllUserService();
+
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      data: users,
+    });
+  } catch (error) {
+    console.error("Error in getAllProfile:", error);
+    next(error);
+  }
+}

@@ -3,6 +3,7 @@ import USER from "../schemas/usersSchema.js";
 export const findUserByEmail = async function (email) {
   try {
     const user = await USER.findOne({ email });
+    return user;
   } catch (error) {
     console.log("error in UserRepo", error);
     throw error;

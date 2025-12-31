@@ -4,6 +4,7 @@ import {
   findAllUser,
 } from "../repository/userRepository.js";
 import { createJWT } from "../utils/authJWT.js";
+import bcrypt from "bcrypt";
 
 export const createUserService = async function (user) {
   try {
@@ -53,6 +54,7 @@ export const loginUserService = async function (userDetails) {
       name: user.name,
       email: user.email,
       id: user.id,
+      role: user.role,
       token: createJWT({
         id: user.id,
         name: user.name,

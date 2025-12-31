@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       minLength: 5,
     },
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN"],
+      default: "USER",
+    },
     balance: {
       type: Number,
     },

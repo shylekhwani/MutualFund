@@ -2,6 +2,7 @@ import {
   createUser,
   findUserByEmail,
   findAllUser,
+  getUserById,
 } from "../repository/userRepository.js";
 import { createJWT } from "../utils/authJWT.js";
 import bcrypt from "bcrypt";
@@ -73,6 +74,16 @@ export const getAllUserService = async function () {
     return user;
   } catch (error) {
     console.error("Error in getAllUsers:", error);
+    throw error; // Pass the error to the controller
+  }
+};
+
+export const getUserByIdService = async function (id) {
+  try {
+    const user = await getUserById(id);
+    return user;
+  } catch (error) {
+    console.error("Error in getUserByIdService:", error);
     throw error; // Pass the error to the controller
   }
 };

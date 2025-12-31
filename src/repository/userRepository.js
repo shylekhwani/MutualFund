@@ -1,3 +1,4 @@
+import { INVESTMENT } from "../schemas/investmentSchema.js";
 import USER from "../schemas/usersSchema.js";
 
 export const findUserByEmail = async function (email) {
@@ -36,7 +37,14 @@ export const createUser = async function (user) {
 export const getUserById = async function (id) {
   try {
     const user = await USER.findById(id);
-    return user;
+    if (!user) return null;
+
+    const investments = await INVESTMENT.find({ userId: id });
+
+    return {
+      user,
+      investments,
+    };
   } catch (error) {
     console.log("error in UserRepo", error);
     throw error;

@@ -1,6 +1,7 @@
 import {
   createUserService,
   getAllUserService,
+  getUserByIdService,
   loginUserService,
 } from "../services/userServices.js";
 
@@ -44,6 +45,22 @@ export async function getAllProfile(req, res, next) {
     });
   } catch (error) {
     console.error("Error in getAllProfile:", error);
+    next(error);
+  }
+}
+
+export async function getUserByIdController(req, res, next) {
+  try {
+    const id = req.params.id;
+    const user = await getUserByIdService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error in etUserByIdController:", error);
     next(error);
   }
 }

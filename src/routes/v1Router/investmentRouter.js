@@ -8,6 +8,6 @@ import { isAuthenticated } from "../../middlewares/authMiddleware.js";
 const investRouter = express.Router();
 
 investRouter.get("/", isAuthenticated, getAllInvestmentsController);
-investRouter.post("/create", createInvestmentController);
+investRouter.post("/create", isAuthenticated, createInvestmentController);
 
 export default investRouter;

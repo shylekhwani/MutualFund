@@ -15,7 +15,10 @@ export const findUserByEmail = async function (email) {
 export const findAllUser = async function () {
   try {
     // Finding all users in the database
-    const users = await USER.find();
+    const users = await USER.find().populate(
+      "investments",
+      "fundName amount units"
+    );
     // Returning the list of users found
     return users;
   } catch (error) {

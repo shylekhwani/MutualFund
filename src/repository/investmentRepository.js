@@ -19,3 +19,13 @@ export const getAllInvestmentsOfUser = async function (id) {
     throw error;
   }
 };
+
+export const getInvestmentById = async function (id) {
+  try {
+    const invest = await INVESTMENT.findById(id);
+    return invest;
+  } catch (error) {
+    console.log("error in investRepo", error);
+    throw error;
+  }
+};

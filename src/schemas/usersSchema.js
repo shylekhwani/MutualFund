@@ -38,6 +38,13 @@ userSchema.virtual("investments", {
   foreignField: "userId", // 👉 Field from OTHER schema (Investment)
 });
 
+userSchema.virtual("redemptions", {
+  // “Match User._id with Investment.userId”
+  ref: "REDEMPTION",
+  localField: "_id",
+  foreignField: "userId", // 👉 Field from OTHER schema (Investment)
+});
+
 userSchema.pre("save", async function modifyBalanceandPassword() {
   const user = this;
 

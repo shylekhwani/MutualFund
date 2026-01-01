@@ -15,10 +15,7 @@ export const findUserByEmail = async function (email) {
 export const findAllUser = async function () {
   try {
     // Finding all users in the database
-    const users = await USER.find().populate(
-      "investments",
-      "fundName amount units"
-    );
+    const users = await USER.find();
     // Returning the list of users found
     return users;
   } catch (error) {
@@ -39,15 +36,19 @@ export const createUser = async function (user) {
 
 export const getUserById = async function (id) {
   try {
-    const user = await USER.findById(id);
+    const user = await USER.findById(id).populate([
+      {
+        path: "investments",
+        select: "fundName amount units",
+      },
+      {
+        path: "redemptions",
+        select: "fundName amountCredited unitsToSell",
+      },
+    ]);
     if (!user) return null;
 
-    const investments = await INVESTMENT.find({ userId: id });
-
-    return {
-      user,
-      investments,
-    };
+    return user;
   } catch (error) {
     console.log("error in UserRepo", error);
     throw error;

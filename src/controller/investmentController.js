@@ -5,7 +5,7 @@ import {
 
 export const createInvestmentController = async function (req, res, next) {
   try {
-    const userId = req.user.user.id;
+    const userId = req.user.id;
     // console.log("UserId", userId);
     const data = { ...req.body, userId };
     const newInvest = await createInvestmentService(data);

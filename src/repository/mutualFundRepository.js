@@ -32,6 +32,11 @@ export const getFundById = async function (id) {
   }
 };
 
+export const getFundsByIds = async (fundIds) => {
+  // It fetches multiple mutual funds at once using their IDs.
+  return await MutualFund.find({ _id: { $in: fundIds } });
+};
+
 export const updateNav = async function (fundid, nav) {
   try {
     const fundToUpdate = await MutualFund.findByIdAndUpdate(

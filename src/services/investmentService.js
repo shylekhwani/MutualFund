@@ -10,12 +10,11 @@ export const createInvestmentService = async function (fundData) {
     const { fundId, userId, amount } = fundData;
     // console.log(fundData);
 
-    const userData = await getUserById(userId);
-    if (!userData || !userData.user) {
+    const user = await getUserById(userId);
+    // console.log(userData);
+    if (!user) {
       throw new Error("User does not exist");
     }
-
-    const user = userData.user;
 
     // Balance check
     if (amount > user.balance) {

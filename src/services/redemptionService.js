@@ -7,12 +7,10 @@ export const createRedemptionService = async function (redemData) {
   try {
     const { fundId, userId, investId, unitsToSell } = redemData;
 
-    const userData = await getUserById(userId);
-    if (!userData || !userData.user) {
+    const user = await getUserById(userId);
+    if (!user) {
       throw new Error("User does not exist");
     }
-
-    const user = userData.user;
 
     //  Fetch fund
     const fund = await getFundById(fundId);
@@ -39,10 +37,13 @@ export const createRedemptionService = async function (redemData) {
       throw new Error("Not Enough Units");
     }
 
-    let redeemAmt = unitsToSell * fund.nav;
+    const redeemAmt = unitsToSell * fund.nav;
+
+    const avgBuyNav = investment.amount / investment.units; // Calculate average buy NAV
 
     //  Deduct units & persist
     investment.units -= unitsToSell;
+    investment.amount -= unitsToSell * avgBuyNav;
     await investment.save();
 
     // update balance
@@ -57,7 +58,7 @@ export const createRedemptionService = async function (redemData) {
       investId,
       navAtSell: fund.nav,
       unitsToSell,
-      amountCredited: redeemAmt,
+      amountCredited: redeemAmt.toFixed(2),
     };
 
     const redemption = await createRedemption(redemptionPayload);

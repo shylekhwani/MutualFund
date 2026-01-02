@@ -2,7 +2,7 @@ import { createRedemptionService } from "../services/redemptionService.js";
 
 export const createRedemptionController = async function (req, res, next) {
   try {
-    const userId = req.user.user.id;
+    const userId = req.user.id;
     // console.log("UserId", userId);
     const data = { ...req.body, userId };
     console.log(data);

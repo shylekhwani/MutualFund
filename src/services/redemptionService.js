@@ -1,6 +1,7 @@
 import { getInvestmentById } from "../repository/investmentRepository.js";
 import { getFundById } from "../repository/mutualFundRepository.js";
 import { createRedemption } from "../repository/redemptionRepository.js";
+import { createTransaction } from "../repository/transactionRepository.js";
 import { getUserById } from "../repository/userRepository.js";
 
 export const createRedemptionService = async function (redemData) {
@@ -62,6 +63,15 @@ export const createRedemptionService = async function (redemData) {
     };
 
     const redemption = await createRedemption(redemptionPayload);
+    await createTransaction({
+      userId,
+      fundId,
+      fundName: fund.name,
+      amount: redeemAmt,
+      nav: fund.nav,
+      type: "SELL",
+      units: unitsToSell,
+    });
     return redemption;
   } catch (error) {
     console.log("Error in createRedemptionService:", error); // Debug log

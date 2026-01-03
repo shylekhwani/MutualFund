@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const investmentSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -16,7 +16,12 @@ const investmentSchema = new mongoose.Schema(
 
     fundName: {
       type: String,
-      ref: "MutualFund",
+      required: true,
+    },
+
+    type: {
+      type: String,
+      enum: ["BUY", "SELL"],
       required: true,
     },
 
@@ -25,12 +30,12 @@ const investmentSchema = new mongoose.Schema(
       required: true,
     },
 
-    navAtBuy: {
+    units: {
       type: Number,
       required: true,
     },
 
-    units: {
+    nav: {
       type: Number,
       required: true,
     },
@@ -38,4 +43,6 @@ const investmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const INVESTMENT = mongoose.model("INVESTMENT", investmentSchema);
+const TRANSACTION = mongoose.model("TRANSACTION", transactionSchema);
+
+export default TRANSACTION;

@@ -3,6 +3,7 @@ import {
   getAllInvestmentsOfUser,
 } from "../repository/investmentRepository.js";
 import { getFundById } from "../repository/mutualFundRepository.js";
+import { createTransaction } from "../repository/transactionRepository.js";
 import { getUserById } from "../repository/userRepository.js";
 
 export const createInvestmentService = async function (fundData) {
@@ -50,6 +51,15 @@ export const createInvestmentService = async function (fundData) {
     };
 
     const investment = await createInvestment(investmentPayload);
+    await createTransaction({
+      userId,
+      fundId,
+      fundName: fund.name,
+      amount,
+      nav: navAtBuy,
+      type: "BUY",
+      units,
+    });
     return investment;
   } catch (error) {
     console.log("Error in CreateInvestmentService:", error); // Debug log
